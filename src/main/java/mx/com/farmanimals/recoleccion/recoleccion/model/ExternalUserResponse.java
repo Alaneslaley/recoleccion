@@ -1,44 +1,20 @@
 package mx.com.farmanimals.recoleccion.recoleccion.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ExternalUserResponse {
-    @JsonProperty("numEmpleado")
     private int numEmpleado;
-    @JsonProperty("clvUsuario")
     private String clvUsuario;
-    @JsonProperty("nombreUsuario")
     private String nombreUsuario;
-    @JsonProperty("apPaterno")
-    private String apPaterno;
-    @JsonProperty("apMaterno")
-    private String apMaterno;
-    @JsonProperty("estaActivo")
     private boolean estaActivo;
-    @JsonProperty("esEmpleado")
     private boolean esEmpleado;
-    @JsonProperty("clvPuesto")
     private ClvPuesto clvPuesto;
-    @JsonProperty("clvSucursal")
     private ClvSucursal clvSucursal;
-    @JsonProperty("clvArea")
     private ClvArea clvArea;
-    @JsonProperty("logged")
     private boolean logged;
-    @JsonProperty("intentos")
-    private int intentos;
-    @JsonProperty("fechaexp")
-    private String fechaexp;
-    @JsonProperty("huelladig")
-    private boolean huelladig;
-    @JsonProperty("clvestatus")
-    private int clvestatus;
-    @JsonProperty("fechareg")
-    private String fechareg;
-    @JsonProperty("numAdam")
-    private int numAdam;
 
     // Getters y Setters
 
@@ -64,22 +40,6 @@ public class ExternalUserResponse {
 
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
-    }
-
-    public String getApPaterno() {
-        return apPaterno;
-    }
-
-    public void setApPaterno(String apPaterno) {
-        this.apPaterno = apPaterno;
-    }
-
-    public String getApMaterno() {
-        return apMaterno;
-    }
-
-    public void setApMaterno(String apMaterno) {
-        this.apMaterno = apMaterno;
     }
 
     public boolean isEstaActivo() {
@@ -130,61 +90,9 @@ public class ExternalUserResponse {
         this.logged = logged;
     }
 
-    public int getIntentos() {
-        return intentos;
-    }
-
-    public void setIntentos(int intentos) {
-        this.intentos = intentos;
-    }
-
-    public String getFechaexp() {
-        return fechaexp;
-    }
-
-    public void setFechaexp(String fechaexp) {
-        this.fechaexp = fechaexp;
-    }
-
-    public boolean isHuelladig() {
-        return huelladig;
-    }
-
-    public void setHuelladig(boolean huelladig) {
-        this.huelladig = huelladig;
-    }
-
-    public int getClvestatus() {
-        return clvestatus;
-    }
-
-    public void setClvestatus(int clvestatus) {
-        this.clvestatus = clvestatus;
-    }
-
-    public String getFechareg() {
-        return fechareg;
-    }
-
-    public void setFechareg(String fechareg) {
-        this.fechareg = fechareg;
-    }
-
-    public int getNumAdam() {
-        return numAdam;
-    }
-
-    public void setNumAdam(int numAdam) {
-        this.numAdam = numAdam;
-    }
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ClvPuesto {
-        @JsonProperty("clvPuesto")
         private int clvPuesto;
-        @JsonProperty("descripcion")
         private String descripcion;
-        @JsonProperty("estaActivo")
         private boolean estaActivo;
 
         // Getters y Setters
@@ -214,53 +122,27 @@ public class ExternalUserResponse {
         }
     }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ClvSucursal {
-        @JsonProperty("clvSucursal")
         private int clvSucursal;
-        @JsonProperty("descripcion")
         private String descripcion;
-        @JsonProperty("calleyNum")
         private String calleyNum;
-        @JsonProperty("colonia")
         private String colonia;
-        @JsonProperty("codigoPostal")
         private int codigoPostal;
-        @JsonProperty("estaActivo")
         private boolean estaActivo;
-        @JsonProperty("clvEstado")
         private ClvEstado clvEstado;
-        @JsonProperty("clvPoblacion")
         private ClvPoblacion clvPoblacion;
-        @JsonProperty("clvPais")
-        private int clvPais;
-        @JsonProperty("sucursalAdo")
+        private ClvPais clvPais;
+        private List<Area> areas;
         private SucursalAdo sucursalAdo;
-        @JsonProperty("telefono")
-        private int telefono;
-        @JsonProperty("fax")
-        private int fax;
-        @JsonProperty("lada")
-        private int lada;
-        @JsonProperty("entradaCompra")
         private boolean entradaCompra;
-        @JsonProperty("fondofijo")
         private double fondofijo;
-        @JsonProperty("ivaDiferenciado")
         private boolean ivaDiferenciado;
-        @JsonProperty("leyenda")
         private String leyenda;
-        @JsonProperty("idformatopublic")
         private int idformatopublic;
-        @JsonProperty("maximofaltante")
         private double maximofaltante;
-        @JsonProperty("guardaequipaje")
         private boolean guardaequipaje;
-        @JsonProperty("clvsucursaljde")
         private String clvsucursaljde;
-        @JsonProperty("tiposucursal")
         private int tiposucursal;
-        @JsonProperty("tiponegocio")
         private int tiponegocio;
 
         // Getters y Setters
@@ -329,12 +211,20 @@ public class ExternalUserResponse {
             this.clvPoblacion = clvPoblacion;
         }
 
-        public int getClvPais() {
+        public ClvPais getClvPais() {
             return clvPais;
         }
 
-        public void setClvPais(int clvPais) {
+        public void setClvPais(ClvPais clvPais) {
             this.clvPais = clvPais;
+        }
+
+        public List<Area> getAreas() {
+            return areas;
+        }
+
+        public void setAreas(List<Area> areas) {
+            this.areas = areas;
         }
 
         public SucursalAdo getSucursalAdo() {
@@ -343,30 +233,6 @@ public class ExternalUserResponse {
 
         public void setSucursalAdo(SucursalAdo sucursalAdo) {
             this.sucursalAdo = sucursalAdo;
-        }
-
-        public int getTelefono() {
-            return telefono;
-        }
-
-        public void setTelefono(int telefono) {
-            this.telefono = telefono;
-        }
-
-        public int getFax() {
-            return fax;
-        }
-
-        public void setFax(int fax) {
-            this.fax = fax;
-        }
-
-        public int getLada() {
-            return lada;
-        }
-
-        public void setLada(int lada) {
-            this.lada = lada;
         }
 
         public boolean isEntradaCompra() {
@@ -449,13 +315,9 @@ public class ExternalUserResponse {
             this.tiponegocio = tiponegocio;
         }
 
-        @JsonIgnoreProperties(ignoreUnknown = true)
         public static class ClvEstado {
-            @JsonProperty("clvEstado")
             private int clvEstado;
-            @JsonProperty("estaActivo")
             private boolean estaActivo;
-            @JsonProperty("clvPais")
             private int clvPais;
 
             // Getters y Setters
@@ -485,15 +347,10 @@ public class ExternalUserResponse {
             }
         }
 
-        @JsonIgnoreProperties(ignoreUnknown = true)
         public static class ClvPoblacion {
-            @JsonProperty("idPoblacion")
             private int idPoblacion;
-            @JsonProperty("pais")
             private int pais;
-            @JsonProperty("estaActivo")
             private boolean estaActivo;
-            @JsonProperty("esfrontera")
             private boolean esfrontera;
 
             // Getters y Setters
@@ -531,23 +388,32 @@ public class ExternalUserResponse {
             }
         }
 
-        @JsonIgnoreProperties(ignoreUnknown = true)
+        public static class ClvPais {
+            private int clvPais;
+
+            // Getters y Setters
+
+            public int getClvPais() {
+                return clvPais;
+            }
+
+            public void setClvPais(int clvPais) {
+                this.clvPais = clvPais;
+            }
+        }
+
+        public static class Area {
+            // Define los campos de Area según sea necesario
+        }
+
         public static class SucursalAdo {
-            @JsonProperty("id")
             private int id;
-            @JsonProperty("descripcion")
             private String descripcion;
-            @JsonProperty("numeroSucursal")
             private String numeroSucursal;
-            @JsonProperty("estaActivo")
             private boolean estaActivo;
-            @JsonProperty("region")
             private Region region;
-            @JsonProperty("direccion")
             private String direccion;
-            @JsonProperty("tituloticket")
             private TituloTicket tituloticket;
-            @JsonProperty("publicidad")
             private boolean publicidad;
 
             // Getters y Setters
@@ -616,17 +482,11 @@ public class ExternalUserResponse {
                 this.publicidad = publicidad;
             }
 
-            @JsonIgnoreProperties(ignoreUnknown = true)
             public static class Region {
-                @JsonProperty("id")
                 private int id;
-                @JsonProperty("descripcion")
                 private String descripcion;
-                @JsonProperty("numeroRegion")
                 private String numeroRegion;
-                @JsonProperty("estaActivo")
                 private boolean estaActivo;
-                @JsonProperty("empresa")
                 private Empresa empresa;
 
                 // Getters y Setters
@@ -671,15 +531,10 @@ public class ExternalUserResponse {
                     this.empresa = empresa;
                 }
 
-                @JsonIgnoreProperties(ignoreUnknown = true)
                 public static class Empresa {
-                    @JsonProperty("id")
                     private int id;
-                    @JsonProperty("descripcion")
                     private String descripcion;
-                    @JsonProperty("numeroEmpresa")
                     private String numeroEmpresa;
-                    @JsonProperty("estaActivo")
                     private boolean estaActivo;
 
                     // Getters y Setters
@@ -718,13 +573,9 @@ public class ExternalUserResponse {
                 }
             }
 
-            @JsonIgnoreProperties(ignoreUnknown = true)
             public static class TituloTicket {
-                @JsonProperty("id")
                 private int id;
-                @JsonProperty("descripcion")
                 private String descripcion;
-                @JsonProperty("sucursalAdo")
                 private SucursalAdo sucursalAdo;
 
                 // Getters y Setters
@@ -756,13 +607,9 @@ public class ExternalUserResponse {
         }
     }
 
-    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ClvArea {
-        @JsonProperty("clvArea")
         private int clvArea;
-        @JsonProperty("descripcion")
         private String descripcion;
-        @JsonProperty("estaActivo")
         private boolean estaActivo;
 
         // Getters y Setters

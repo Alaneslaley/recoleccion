@@ -5,7 +5,6 @@ import mx.com.farmanimals.recoleccion.recoleccion.model.Usuario;
 import mx.com.farmanimals.recoleccion.recoleccion.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
@@ -54,7 +53,7 @@ public class UsuarioController {
         headers.set("x-api-key", apiKey);
 
         // Agregar autenticación básica usando email y password recibidos
-        String auth = usuario.getEmail() + ":" + usuario.getPassword();
+        String auth = usuario.getEmail() + ":" + usuario.getPassword(); // Usar el email y password recibidos
         String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
         String authHeader = "Basic " + encodedAuth;
         headers.set("Authorization", authHeader);
