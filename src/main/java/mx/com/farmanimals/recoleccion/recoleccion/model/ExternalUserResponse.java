@@ -1,6 +1,8 @@
 package mx.com.farmanimals.recoleccion.recoleccion.model;
 
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -390,9 +392,14 @@ public class ExternalUserResponse {
 
         public static class ClvPais {
             private int clvPais;
+            private boolean estaActivo;
 
-            // Getters y Setters
+            @JsonCreator
+            public ClvPais(@JsonProperty("clvPais") int clvPais) {
+                this.clvPais = clvPais;
+            }
 
+            // Getters y setters
             public int getClvPais() {
                 return clvPais;
             }
@@ -400,7 +407,16 @@ public class ExternalUserResponse {
             public void setClvPais(int clvPais) {
                 this.clvPais = clvPais;
             }
+
+            public boolean isEstaActivo() {
+                return estaActivo;
+            }
+
+            public void setEstaActivo(boolean estaActivo) {
+                this.estaActivo = estaActivo;
+            }
         }
+
 
         public static class Area {
             // Define los campos de Area según sea necesario
