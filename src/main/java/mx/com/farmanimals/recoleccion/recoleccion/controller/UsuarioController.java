@@ -5,6 +5,7 @@ import mx.com.farmanimals.recoleccion.recoleccion.model.Usuario;
 import mx.com.farmanimals.recoleccion.recoleccion.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
@@ -66,9 +67,9 @@ public class UsuarioController {
         try {
             logger.info("Enviando solicitud a la API externa con el cuerpo: " + requestBody);
 
-            // Hacer la solicitud POST a la API externa
-            ResponseEntity<ExternalUserResponse> response = restTemplate.exchange(
-                    url, HttpMethod.POST, request, ExternalUserResponse.class);
+            // Hacer la solicitud POST a la API externa esperando una lista de ExternalUserResponse
+            ResponseEntity<List<ExternalUserResponse>> response = restTemplate.exchange(
+                    url, HttpMethod.POST, request, new ParameterizedTypeReference<List<ExternalUserResponse>>() {});
 
             // Log de la respuesta de la API externa
             logger.info("Respuesta de la API externa: " + response.getStatusCode());
@@ -76,17 +77,24 @@ public class UsuarioController {
 
             // Verificar la respuesta de la API externa
             if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-                ExternalUserResponse externalUser = response.getBody();
+                List<ExternalUserResponse> externalUsers = response.getBody();
 
-                // Logs adicionales para verificar los valores
-                logger.info("Usuario activo: " + externalUser.isEstaActivo());
-                logger.info("Nombre de usuario: " + externalUser.getNombreUsuario());
+                // Suponiendo que necesitas el primer usuario de la lista
+                if (!externalUsers.isEmpty()) {
+                    ExternalUserResponse externalUser = externalUsers.get(0);
 
-                if (externalUser.isEstaActivo()) {
-                    // Aquí puedes procesar la respuesta según sea necesario
-                    return ResponseEntity.ok(externalUser);
+                    // Logs adicionales para verificar los valores
+                    logger.info("Usuario activo: " + externalUser.isEstaActivo());
+                    logger.info("Nombre de usuario: " + externalUser.getNombreUsuario());
+
+                    if (externalUser.isEstaActivo()) {
+                        // Aquí puedes procesar la respuesta según sea necesario
+                        return ResponseEntity.ok(externalUser);
+                    } else {
+                        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no activo.");
+                    }
                 } else {
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no activo.");
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontró el usuario.");
                 }
             } else {
                 return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
@@ -98,4 +106,5 @@ public class UsuarioController {
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
         }
     }
+
 }
