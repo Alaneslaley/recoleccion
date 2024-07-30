@@ -15,8 +15,6 @@ import java.util.Base64;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @RestController
 @RequestMapping("/api/usuario")
 public class UsuarioController {
@@ -47,8 +45,8 @@ public class UsuarioController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Usuario usuario) {
-        // Crear la URL completa para la API externa con el parámetro de consulta
-        String url = apiUrl + "busca_usuario?id=" + usuario.getEmail();
+        // Crear la URL completa para la API externa
+        String url = apiUrl + "busca_usuario";
 
         // Crear los headers de la solicitud
         HttpHeaders headers = new HttpHeaders();
@@ -56,31 +54,31 @@ public class UsuarioController {
         headers.set("x-api-key", apiKey);
 
         // Agregar autenticación básica usando email y password recibidos
-        String auth = usuario.getEmail() + ":" + usuario.getPassword(); // Usar el email y password recibidos
+        String auth = usuario.getEmail() + ":" + usuario.getPassword();
         String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
         String authHeader = "Basic " + encodedAuth;
         headers.set("Authorization", authHeader);
 
-        // No se necesita cuerpo de la solicitud
-        HttpEntity<String> request = new HttpEntity<>(headers);
+        // Crear el cuerpo de la solicitud
+        String requestBody = String.format("{\"id\": \"%s\"}", usuario.getEmail());
+
+        HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
 
         try {
-            logger.info("Enviando solicitud a la API externa a la URL: " + url);
+            logger.info("Enviando solicitud a la API externa con el cuerpo: " + requestBody);
 
             // Hacer la solicitud POST a la API externa
-            ResponseEntity<String> response = restTemplate.exchange(
-                    url, HttpMethod.POST, request, String.class);
+            ResponseEntity<ExternalUserResponse> response = restTemplate.exchange(
+                    url, HttpMethod.POST, request, ExternalUserResponse.class);
 
-            // Log de la respuesta cruda de la API externa
-            logger.info("Respuesta cruda de la API externa: " + response.getBody());
-
-            // Deserializar la respuesta a un objeto ExternalUserResponse
-            ObjectMapper objectMapper = new ObjectMapper();
-            ExternalUserResponse externalUser = objectMapper.readValue(response.getBody(), ExternalUserResponse.class);
-            logger.info("Respuesta deserializada de la API externa: " + externalUser);
+            // Log de la respuesta de la API externa
+            logger.info("Respuesta de la API externa: " + response.getStatusCode());
+            logger.info("Cuerpo de la respuesta de la API externa: " + response.getBody());
 
             // Verificar la respuesta de la API externa
-            if (response.getStatusCode() == HttpStatus.OK && externalUser != null) {
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                ExternalUserResponse externalUser = response.getBody();
+
                 // Logs adicionales para verificar los valores
                 logger.info("Usuario activo: " + externalUser.isEstaActivo());
                 logger.info("Nombre de usuario: " + externalUser.getNombreUsuario());
@@ -99,9 +97,6 @@ public class UsuarioController {
             logger.severe("Error al llamar a la API externa: " + e.getMessage());
             logger.severe("Cuerpo del error: " + e.getResponseBodyAsString());
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
-        } catch (Exception e) {
-            logger.severe("Error al procesar la respuesta de la API externa: " + e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al procesar la respuesta de la API externa.");
         }
     }
 }
