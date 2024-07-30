@@ -6,24 +6,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/catalogos")
+@RequestMapping("/api/catalogo")
 public class CatalogoController {
 
     @Autowired
     private CatalogoService catalogoService;
 
-    @GetMapping("/busca_cliente")
-    public ResponseEntity<String> buscaClientes(@RequestParam(required = false) Integer id) {
-        return catalogoService.buscaClientes(id);
+    @GetMapping("/buscaClientes")
+    public ResponseEntity<String> buscaClientes(@RequestParam String username, @RequestParam String password, @RequestParam(required = false) Integer id) {
+        return catalogoService.buscaClientes(username, password, id);
     }
 
-    @GetMapping("/busca_sucursales")
-    public ResponseEntity<String> buscaSucursales(@RequestParam(required = false) Integer id) {
-        return catalogoService.buscaSucursales(id);
+    @GetMapping("/buscaSucursales")
+    public ResponseEntity<String> buscaSucursales(@RequestParam String username, @RequestParam String password, @RequestParam(required = false) Integer id) {
+        return catalogoService.buscaSucursales(username, password, id);
     }
 
-    @GetMapping("/busca_cortes")
-    public ResponseEntity<String> buscaCortes(@RequestParam Integer id, @RequestParam String fechaCorte) {
-        return catalogoService.buscaCortes(id, fechaCorte);
+    @GetMapping("/buscaCortes")
+    public ResponseEntity<String> buscaCortes(@RequestParam String username, @RequestParam String password, @RequestParam Integer id, @RequestParam String fechaCorte) {
+        return catalogoService.buscaCortes(username, password, id, fechaCorte);
     }
 }

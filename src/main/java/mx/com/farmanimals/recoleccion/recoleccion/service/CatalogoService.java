@@ -11,7 +11,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.Map;
 
 @Service
 public class CatalogoService {
@@ -22,12 +21,11 @@ public class CatalogoService {
     @Value("${api.key}")
     private String apiKey;
 
-
     @Autowired
     private RestTemplate restTemplate;
 
-    private HttpHeaders createHeaders() {
-        String auth = apiUsername + ":" + apiPassword;
+    private HttpHeaders createHeaders(String username, String password) {
+        String auth = username + ":" + password;
         String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes(StandardCharsets.UTF_8));
 
         HttpHeaders headers = new HttpHeaders();
@@ -36,27 +34,27 @@ public class CatalogoService {
         return headers;
     }
 
-    public ResponseEntity<String> buscaClientes(Integer id) {
+    public ResponseEntity<String> buscaClientes(String username, String password, Integer id) {
         String url = apiUrl + "busca_cliente";
         if (id != null) {
             url += "?id=" + id;
         }
-        HttpEntity<String> entity = new HttpEntity<>(createHeaders());
+        HttpEntity<String> entity = new HttpEntity<>(createHeaders(username, password));
         return restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
     }
 
-    public ResponseEntity<String> buscaSucursales(Integer id) {
+    public ResponseEntity<String> buscaSucursales(String username, String password, Integer id) {
         String url = apiUrl + "busca_sucursales";
         if (id != null) {
             url += "?id=" + id;
         }
-        HttpEntity<String> entity = new HttpEntity<>(createHeaders());
+        HttpEntity<String> entity = new HttpEntity<>(createHeaders(username, password));
         return restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
     }
 
-    public ResponseEntity<String> buscaCortes(Integer id, String fechaCorte) {
+    public ResponseEntity<String> buscaCortes(String username, String password, Integer id, String fechaCorte) {
         String url = apiUrl + "busca_cortes?id=" + id + "&fechaCorte=" + fechaCorte;
-        HttpEntity<String> entity = new HttpEntity<>(createHeaders());
+        HttpEntity<String> entity = new HttpEntity<>(createHeaders(username, password));
         return restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
     }
 }
