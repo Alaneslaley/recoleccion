@@ -1,24 +1,27 @@
 package mx.com.farmanimals.recoleccion.recoleccion.model;
 
-import java.util.List;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ExternalUserResponse {
     private int numEmpleado;
     private String clvUsuario;
     private String nombreUsuario;
+    private String apPaterno;
+    private String apMaterno;
     private boolean estaActivo;
     private boolean esEmpleado;
     private ClvPuesto clvPuesto;
     private ClvSucursal clvSucursal;
     private ClvArea clvArea;
     private boolean logged;
+    private int intentos;
+    private Date fechaexp;
+    private boolean huelladig;
+    private int clvestatus;
+    private Date fechareg;
+    private int numAdam;
 
-    // Getters y Setters
+    // Getters and setters
 
     public int getNumEmpleado() {
         return numEmpleado;
@@ -42,6 +45,22 @@ public class ExternalUserResponse {
 
     public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getApPaterno() {
+        return apPaterno;
+    }
+
+    public void setApPaterno(String apPaterno) {
+        this.apPaterno = apPaterno;
+    }
+
+    public String getApMaterno() {
+        return apMaterno;
+    }
+
+    public void setApMaterno(String apMaterno) {
+        this.apMaterno = apMaterno;
     }
 
     public boolean isEstaActivo() {
@@ -92,12 +111,60 @@ public class ExternalUserResponse {
         this.logged = logged;
     }
 
+    public int getIntentos() {
+        return intentos;
+    }
+
+    public void setIntentos(int intentos) {
+        this.intentos = intentos;
+    }
+
+    public Date getFechaexp() {
+        return fechaexp;
+    }
+
+    public void setFechaexp(Date fechaexp) {
+        this.fechaexp = fechaexp;
+    }
+
+    public boolean isHuelladig() {
+        return huelladig;
+    }
+
+    public void setHuelladig(boolean huelladig) {
+        this.huelladig = huelladig;
+    }
+
+    public int getClvestatus() {
+        return clvestatus;
+    }
+
+    public void setClvestatus(int clvestatus) {
+        this.clvestatus = clvestatus;
+    }
+
+    public Date getFechareg() {
+        return fechareg;
+    }
+
+    public void setFechareg(Date fechareg) {
+        this.fechareg = fechareg;
+    }
+
+    public int getNumAdam() {
+        return numAdam;
+    }
+
+    public void setNumAdam(int numAdam) {
+        this.numAdam = numAdam;
+    }
+
     public static class ClvPuesto {
         private int clvPuesto;
         private String descripcion;
         private boolean estaActivo;
 
-        // Getters y Setters
+        // Getters and setters
 
         public int getClvPuesto() {
             return clvPuesto;
@@ -133,9 +200,11 @@ public class ExternalUserResponse {
         private boolean estaActivo;
         private ClvEstado clvEstado;
         private ClvPoblacion clvPoblacion;
-        private ClvPais clvPais;
-        private List<Area> areas;
+        private int clvPais;
         private SucursalAdo sucursalAdo;
+        private int telefono;
+        private int fax;
+        private int lada;
         private boolean entradaCompra;
         private double fondofijo;
         private boolean ivaDiferenciado;
@@ -147,7 +216,7 @@ public class ExternalUserResponse {
         private int tiposucursal;
         private int tiponegocio;
 
-        // Getters y Setters
+        // Getters and setters
 
         public int getClvSucursal() {
             return clvSucursal;
@@ -213,20 +282,12 @@ public class ExternalUserResponse {
             this.clvPoblacion = clvPoblacion;
         }
 
-        public ClvPais getClvPais() {
+        public int getClvPais() {
             return clvPais;
         }
 
-        public void setClvPais(ClvPais clvPais) {
+        public void setClvPais(int clvPais) {
             this.clvPais = clvPais;
-        }
-
-        public List<Area> getAreas() {
-            return areas;
-        }
-
-        public void setAreas(List<Area> areas) {
-            this.areas = areas;
         }
 
         public SucursalAdo getSucursalAdo() {
@@ -235,6 +296,30 @@ public class ExternalUserResponse {
 
         public void setSucursalAdo(SucursalAdo sucursalAdo) {
             this.sucursalAdo = sucursalAdo;
+        }
+
+        public int getTelefono() {
+            return telefono;
+        }
+
+        public void setTelefono(int telefono) {
+            this.telefono = telefono;
+        }
+
+        public int getFax() {
+            return fax;
+        }
+
+        public void setFax(int fax) {
+            this.fax = fax;
+        }
+
+        public int getLada() {
+            return lada;
+        }
+
+        public void setLada(int lada) {
+            this.lada = lada;
         }
 
         public boolean isEntradaCompra() {
@@ -322,7 +407,7 @@ public class ExternalUserResponse {
             private boolean estaActivo;
             private int clvPais;
 
-            // Getters y Setters
+            // Getters and setters
 
             public int getClvEstado() {
                 return clvEstado;
@@ -355,7 +440,7 @@ public class ExternalUserResponse {
             private boolean estaActivo;
             private boolean esfrontera;
 
-            // Getters y Setters
+            // Getters and setters
 
             public int getIdPoblacion() {
                 return idPoblacion;
@@ -390,38 +475,6 @@ public class ExternalUserResponse {
             }
         }
 
-        public static class ClvPais {
-            private int clvPais;
-            private boolean estaActivo;
-
-            @JsonCreator
-            public ClvPais(@JsonProperty("clvPais") int clvPais) {
-                this.clvPais = clvPais;
-            }
-
-            // Getters y setters
-            public int getClvPais() {
-                return clvPais;
-            }
-
-            public void setClvPais(int clvPais) {
-                this.clvPais = clvPais;
-            }
-
-            public boolean isEstaActivo() {
-                return estaActivo;
-            }
-
-            public void setEstaActivo(boolean estaActivo) {
-                this.estaActivo = estaActivo;
-            }
-        }
-
-
-        public static class Area {
-            // Define los campos de Area según sea necesario
-        }
-
         public static class SucursalAdo {
             private int id;
             private String descripcion;
@@ -432,7 +485,7 @@ public class ExternalUserResponse {
             private TituloTicket tituloticket;
             private boolean publicidad;
 
-            // Getters y Setters
+            // Getters and setters
 
             public int getId() {
                 return id;
@@ -505,7 +558,7 @@ public class ExternalUserResponse {
                 private boolean estaActivo;
                 private Empresa empresa;
 
-                // Getters y Setters
+                // Getters and setters
 
                 public int getId() {
                     return id;
@@ -553,7 +606,7 @@ public class ExternalUserResponse {
                     private String numeroEmpresa;
                     private boolean estaActivo;
 
-                    // Getters y Setters
+                    // Getters and setters
 
                     public int getId() {
                         return id;
@@ -594,7 +647,7 @@ public class ExternalUserResponse {
                 private String descripcion;
                 private SucursalAdo sucursalAdo;
 
-                // Getters y Setters
+                // Getters and setters
 
                 public int getId() {
                     return id;
@@ -628,7 +681,7 @@ public class ExternalUserResponse {
         private String descripcion;
         private boolean estaActivo;
 
-        // Getters y Setters
+        // Getters and setters
 
         public int getClvArea() {
             return clvArea;
