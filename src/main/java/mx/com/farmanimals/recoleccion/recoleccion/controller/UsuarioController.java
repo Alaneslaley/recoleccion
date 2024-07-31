@@ -136,12 +136,12 @@ public class UsuarioController {
 
     private static class LoginResponse {
         private String clvusuario;
-        private String userType;
+        private String puesto;
         private String nombreUsuario;
 
         public LoginResponse(String clvusuario, String userType, String nombreUsuario) {
             this.clvusuario = clvusuario;
-            this.userType = userType;
+            this.puesto = userType;
             this.nombreUsuario = nombreUsuario;
         }
 
@@ -150,7 +150,7 @@ public class UsuarioController {
         }
 
         public String getUserType() {
-            return userType;
+            return puesto;
         }
 
         public String getNombreUsuario() {
