@@ -93,8 +93,15 @@ public class UsuarioController {
                     logger.info("Nombre de usuario: " + externalUser.getNombreUsuario());
 
                     if (externalUser.isEstaActivo()) {
-                        // Aquí puedes procesar la respuesta según sea necesario
-                        return ResponseEntity.ok(externalUser);
+                        // Obtener el tipo de usuario basado en el puesto
+                        String userType = getUserType(externalUser.getClvPuesto().getDescripcion());
+                        if (userType == null) {
+                            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Tipo de usuario no reconocido.");
+                        }
+                        
+                        // Crear una respuesta con el tipo de usuario y otros detalles necesarios
+                        LoginResponse loginResponse = new LoginResponse(externalUser.getClvUsuario(), userType, externalUser.getNombreUsuario());
+                        return ResponseEntity.ok(loginResponse);
                     } else {
                         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no activo.");
                     }
@@ -109,6 +116,45 @@ public class UsuarioController {
             logger.severe("Error al llamar a la API externa: " + e.getMessage());
             logger.severe("Cuerpo del error: " + e.getResponseBodyAsString());
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
+        }
+    }
+
+    private String getUserType(String puesto) {
+        switch (puesto.toUpperCase()) {
+            case "GERENTE":
+                return "gerente";
+            case "AUDITOR":
+                return "auditor";
+            case "MENSAJE":
+                return "mensaje";
+            case "RECOLECTOR":
+                return "recolector";
+            default:
+                return null;
+        }
+    }
+
+    private static class LoginResponse {
+        private String clvusuario;
+        private String userType;
+        private String nombreUsuario;
+
+        public LoginResponse(String clvusuario, String userType, String nombreUsuario) {
+            this.clvusuario = clvusuario;
+            this.userType = userType;
+            this.nombreUsuario = nombreUsuario;
+        }
+
+        public String getClvusuario() {
+            return clvusuario;
+        }
+
+        public String getUserType() {
+            return userType;
+        }
+
+        public String getNombreUsuario() {
+            return nombreUsuario;
         }
     }
 }
