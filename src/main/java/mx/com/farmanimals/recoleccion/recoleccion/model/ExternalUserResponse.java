@@ -1,5 +1,7 @@
 package mx.com.farmanimals.recoleccion.recoleccion.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Date;
 
 public class ExternalUserResponse {
@@ -15,13 +17,21 @@ public class ExternalUserResponse {
     private ClvArea clvArea;
     private boolean logged;
     private int intentos;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MMM d, yyyy")
     private Date fechaexp;
+
     private boolean huelladig;
     private int clvestatus;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MMM d, yyyy")
     private Date fechareg;
+
     private int numAdam;
 
     // Getters and setters
+
+    // El resto de los getters y setters se omiten por brevedad
 
     public int getNumEmpleado() {
         return numEmpleado;
