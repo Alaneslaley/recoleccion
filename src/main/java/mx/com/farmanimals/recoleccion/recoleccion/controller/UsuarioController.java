@@ -54,7 +54,7 @@ public class UsuarioController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("x-api-key", apiKey);
 
-        // Agregar autenticaci√≥n b√°sica usando clvusuario y password recibidos
+        // Agregar autenticaciÛn b·sica usando clvusuario y password recibidos
         String auth = usuario.getEmail() + ":" + usuario.getPassword(); // Usar el clvusuario y password recibidos
         String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
         String authHeader = "Basic " + encodedAuth;
@@ -93,20 +93,20 @@ public class UsuarioController {
                     logger.info("Nombre de usuario: " + externalUser.getNombreUsuario());
 
                     if (externalUser.isEstaActivo()) {
-                        // Obtener el tipo de usuario basado en el puesto
-                        String userType = getUserType(externalUser.getClvPuesto().getDescripcion());
-                        if (userType == null) {
+                        // Obtener el puesto basado en el clvPuesto
+                        String puesto = getUserType(externalUser.getClvPuesto().getDescripcion());
+                        if (puesto == null) {
                             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Tipo de usuario no reconocido.");
                         }
-                        
-                        // Crear una respuesta con el tipo de usuario y otros detalles necesarios
-                        LoginResponse loginResponse = new LoginResponse(externalUser.getClvUsuario(), userType, externalUser.getNombreUsuario());
+
+                        // Crear una respuesta con el puesto y otros detalles necesarios
+                        LoginResponse loginResponse = new LoginResponse(externalUser.getClvUsuario(), puesto, externalUser.getNombreUsuario());
                         return ResponseEntity.ok(loginResponse);
                     } else {
                         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario no activo.");
                     }
                 } else {
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontr√≥ el usuario.");
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se encontrÛ el usuario.");
                 }
             } else {
                 return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
@@ -149,7 +149,7 @@ public class UsuarioController {
             return clvusuario;
         }
 
-        public String getUserType() {
+        public String getPuesto() {
             return puesto;
         }
 
