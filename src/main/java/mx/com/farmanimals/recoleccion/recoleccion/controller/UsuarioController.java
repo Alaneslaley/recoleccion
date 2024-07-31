@@ -139,9 +139,9 @@ public class UsuarioController {
         private String puesto;
         private String nombreUsuario;
 
-        public LoginResponse(String clvusuario, String userType, String nombreUsuario) {
+        public LoginResponse(String clvusuario, String puesto, String nombreUsuario) {
             this.clvusuario = clvusuario;
-            this.puesto = userType;
+            this.puesto = puesto;
             this.nombreUsuario = nombreUsuario;
         }
 
