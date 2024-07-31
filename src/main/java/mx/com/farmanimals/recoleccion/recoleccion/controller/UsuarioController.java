@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -145,14 +147,17 @@ public class UsuarioController {
             this.nombreUsuario = nombreUsuario;
         }
 
+        @JsonProperty("clvusuario")
         public String getClvusuario() {
             return clvusuario;
         }
 
+        @JsonProperty("puesto")
         public String getPuesto() {
             return puesto;
         }
 
+        @JsonProperty("nombreUsuario")
         public String getNombreUsuario() {
             return nombreUsuario;
         }
