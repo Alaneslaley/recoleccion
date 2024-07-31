@@ -56,6 +56,7 @@ public class UsuarioController {
 
         // Agregar autenticación básica usando clvusuario y password recibidos
         String auth = usuario.getEmail() + ":" + usuario.getPassword(); // Usar el clvusuario y password recibidos
+        logger.info("Credenciales enviadas: usuario: " + usuario.getEmail() + " pass: " + usuario.getPassword());
         String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
         String authHeader = "Basic " + encodedAuth;
         headers.set("Authorization", authHeader);
