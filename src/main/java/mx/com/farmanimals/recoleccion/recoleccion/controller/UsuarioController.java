@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @RestController
@@ -53,8 +54,8 @@ public class UsuarioController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("x-api-key", apiKey);
 
-        // Agregar autenticación básica usando email y password recibidos
-        String auth = usuario.getEmail() + ":" + usuario.getPassword(); // Usar el email y password recibidos
+        // Agregar autenticación básica usando clvusuario y password recibidos
+        String auth = usuario.getEmail() + ":" + usuario.getPassword(); // Usar el clvusuario y password recibidos
         String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
         String authHeader = "Basic " + encodedAuth;
         headers.set("Authorization", authHeader);
@@ -79,9 +80,13 @@ public class UsuarioController {
             if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
                 List<ExternalUserResponse> externalUsers = response.getBody();
 
-                // Suponiendo que necesitas el primer usuario de la lista
-                if (!externalUsers.isEmpty()) {
-                    ExternalUserResponse externalUser = externalUsers.get(0);
+                // Filtrar el usuario con el clvusuario proporcionado
+                Optional<ExternalUserResponse> matchedUser = externalUsers.stream()
+                        .filter(user -> user.getClvUsuario().equalsIgnoreCase(usuario.getEmail()))
+                        .findFirst();
+
+                if (matchedUser.isPresent()) {
+                    ExternalUserResponse externalUser = matchedUser.get();
 
                     // Logs adicionales para verificar los valores
                     logger.info("Usuario activo: " + externalUser.isEstaActivo());
@@ -106,5 +111,4 @@ public class UsuarioController {
             return ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString());
         }
     }
-
 }
